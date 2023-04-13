@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
-import db from '../models/userModel';
 import { table } from 'console';
-import Cryptr from 'cryptr';
 dotenv.config();
 
 interface schemaControllers {
@@ -16,6 +14,7 @@ const schemaController: schemaControllers = {
   connectDb: async (req, res, next) => {
     try {
       console.log('running connectDb');
+<<<<<<< HEAD
       let dbId;
       if (res.locals.dbId) dbId = res.locals.dbId;
       if (!dbId) dbId = req.cookies.dbId;
@@ -36,6 +35,11 @@ const schemaController: schemaControllers = {
       const pg_uri = decodeURIComponent(decryptedUri);
 
       var envCredentials: any = { connectionString: pg_uri };
+=======
+      const { uri } = req.body;
+      const decodedUri = decodeURIComponent(uri);
+      const envCredentials: any = { connectionString: decodedUri };
+>>>>>>> ba9e2e51e5c13411bf1b526de174465388b27c7b
       res.locals.pg = new Pool(envCredentials);
       return next();
     } catch (error) {

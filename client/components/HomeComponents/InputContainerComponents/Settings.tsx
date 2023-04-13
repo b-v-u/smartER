@@ -9,13 +9,24 @@ const Settings: React.FC<setTab> = ({ setTab }) => {
   const {
     uri,
     setUri,
+    savedUri,
+    setSavedUri,
     dbCredentials,
     setDBCredentials,
+    errorMessages,
+    queryString,
+    setQueryString,
+    setErrorMessages,
     masterData,
     setMasterData,
   } = useContext(HomepageContext)!;
   //Handle submission of new URI
+<<<<<<< HEAD
   const handleSubmit = async (e: any) => {
+=======
+
+  const handleUriSubmit = async (e: any) => {
+>>>>>>> ba9e2e51e5c13411bf1b526de174465388b27c7b
     e.preventDefault();
     let encodedURI: string;
     if (uri) {
@@ -28,13 +39,19 @@ const Settings: React.FC<setTab> = ({ setTab }) => {
       );
     } //TODO: Add fetch to add URI to DB, email will be parsed from JWT on backend
     try {
+<<<<<<< HEAD
       const data = await fetch('/api/addURI', {
+=======
+      const encodedURI: string = encodeURIComponent(uri);
+      const data = await fetch('/api/getSchema', {
+>>>>>>> ba9e2e51e5c13411bf1b526de174465388b27c7b
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ encodedURI }),
+        body: JSON.stringify({ uri: encodedURI }),
       });
       if (data.status === 200) {
         //TODO: add a success indicator
+<<<<<<< HEAD
         setTab('Query');
         setUri('');
         setDBCredentials({
@@ -44,6 +61,12 @@ const Settings: React.FC<setTab> = ({ setTab }) => {
           dbPassword: '',
           database: '',
         });
+=======
+        setSavedUri(encodedURI);
+        setUri('');
+        setTab('Query');
+        setErrorMessages(['']);
+>>>>>>> ba9e2e51e5c13411bf1b526de174465388b27c7b
         const parsedData = await data.json();
         setMasterData(parsedData);
         return;
@@ -54,6 +77,52 @@ const Settings: React.FC<setTab> = ({ setTab }) => {
     }
   };
 
+<<<<<<< HEAD
+=======
+  //Handle submission of new Credentials
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    let encodedURI: string;
+    if (uri) {
+      encodedURI = encodeURIComponent(uri);
+    } else {
+      const { host, port, dbUsername, dbPassword, database } = dbCredentials;
+      const hostspec = port ? `${host}:${port}` : host;
+      encodedURI = encodeURIComponent(
+        `postgres://${dbUsername}:${dbPassword}@${hostspec}/${database}`
+      );
+    }
+    try {
+      const data = await fetch('/api/getSchema', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uri: encodedURI }),
+      });
+
+      if (data.status === 200) {
+        //TODO: add a success indicator
+        setSavedUri(encodedURI);
+        setUri('');
+        setErrorMessages(['']);
+        setQueryString('');
+        setDBCredentials({
+          host: '',
+          port: 0,
+          dbUsername: '',
+          dbPassword: '',
+          database: '',
+        });
+        setTab('Query');
+        const parsedData = await data.json();
+        setMasterData(parsedData);
+        return;
+      }
+    } catch (error) {
+      console.log('Error in Settings.tsx handleSubmit');
+    }
+  };
+
+>>>>>>> ba9e2e51e5c13411bf1b526de174465388b27c7b
   return (
     <div className="settings-main">
       <div className="uri-main">

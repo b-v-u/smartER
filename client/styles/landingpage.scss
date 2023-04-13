@@ -1,0 +1,219 @@
+.landing-page-outer-container {
+  background: #02b5c9;
+  background: linear-gradient(
+    150deg,
+    #fec446ce 0%,
+    #020024bb 30%,
+    #004f77cc 70%,
+    #02b5c99b 95%
+  );
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.landing-page-container {
+  margin: 0 4%;
+
+  header {
+    position: fixed;
+    top: 1%;
+    left: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 92%;
+    height: 10%;
+
+    .logo {
+      height: 100%;
+      width: 100%;
+      position: relative;
+      background-image: url(../../assets/logo-main.png);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 15px;
+      margin: 20px 0;
+      position: fixed;
+      top: 1%;
+      right: 4%;
+
+      .landing-page-small-btn,
+      .landing-page-demo-btn {
+        background-color: #efefef;
+        padding: 5px;
+        text-decoration: none;
+        color: #020024;
+        border-radius: 3px;
+        font-family: 'Lato', sans-serif;
+        font-size: 11px;
+      }
+
+      .landing-page-demo-btn {
+        background-color: #fec446;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .landing-page-content {
+    height: 81%;
+    position: absolute;
+    top: 11%;
+    left: 4%;
+    padding-right: 4%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .description {
+      font-size: 1.75em;
+      text-align: center;
+      color: white;
+      margin: 40px 0;
+    }
+
+    .features {
+      p {
+        font-size: 1.3em;
+        text-align: center;
+      }
+
+      ul {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        list-style: none;
+        padding: 0;
+      }
+    }
+
+    .landing-page-title {
+      display: flex;
+      justify-content: center;
+      font-size: 40px;
+      color: black;
+    }
+
+    .spacer {
+      height: 50px;
+    }
+
+    .landing-page-section {
+      display: flex;
+      justify-content: space-between;
+      // align-items: center;
+      margin: 40px 0;
+      gap: 40px;
+
+      .landing-page-section-text {
+        h2 {
+          font-size: 2em;
+          font-weight: bold;
+        }
+
+        p {
+          font-weight: lighter;
+          font-size: 1.1em;
+        }
+      }
+
+      .landing-page-section,
+      img,
+      .images {
+        border-radius: 5px;
+        box-shadow: 8px 7px 33px -11px rgba(0, 0, 0, 0.44);
+      }
+
+      .images {
+        border-radius: 5px;
+        box-shadow: 8px 7px 33px -11px rgba(0, 0, 0, 0.44);
+        min-width: 45%;
+        max-width: 200px;
+        padding-top: 22.7%;
+        position: relative;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+
+      #security {
+        background-image: url(../../assets/login-uri-sequence.gif);
+      }
+
+      #diagram {
+        background-image: url(../../assets/query-diagram-render.gif);
+      }
+
+      #repositioning {
+        background-image: url(../../assets/diagram-rearrange.gif);
+      }
+
+      #history {
+        background-image: url(../../assets/save-history.gif);
+      }
+
+      #results {
+        background-image: url(../../assets/results-scroll.gif);
+      }
+    }
+
+    .ltr {
+      flex-direction: row;
+
+      .landing-page-section-text {
+        text-align: right;
+      }
+    }
+
+    .rtl {
+      flex-direction: row-reverse;
+
+      .landing-page-section-text {
+        text-align: left;
+      }
+    }
+  }
+
+  // footer
+  footer {
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 50px 0 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.074);
+    width: 100%;
+    font-size: min(1.5vh, 18px);
+    height: 8%;
+
+    ul {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      padding: 0;
+      list-style: none;
+
+      li {
+        vertical-align: middle;
+        a {
+          color: #fff;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

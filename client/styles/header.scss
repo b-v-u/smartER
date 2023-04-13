@@ -19,6 +19,7 @@ body {
   left: 3%;
   background-color: transparent;
 
+<<<<<<< HEAD
   .logo {
     width: 250px;
     height: 75px;
@@ -28,6 +29,16 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
   }
+=======
+.logo {
+  width: 250px;
+  height: 75px;
+  position: absolute;
+  margin: -5px 0 0 -1%;
+  background-image: url(../../assets/logo-main.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+>>>>>>> ba9e2e51e5c13411bf1b526de174465388b27c7b
 }
 
 .logout-button {

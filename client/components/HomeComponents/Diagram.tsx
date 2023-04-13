@@ -33,6 +33,7 @@ const Diagram: FC<{}> = () => {
 
   const {
     queryString,
+    savedUri,
     submit,
     masterData,
     setMasterData,
@@ -52,11 +53,10 @@ const Diagram: FC<{}> = () => {
     //setSubmit to trigger useEffect for re-rendering Diagram.tsx
     // POST request to database with queryString
     try {
-      const created_at = String(Date.now());
       const data = await fetch('/api/getQueryResults', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ created_at, queryString }),
+        body: JSON.stringify({ queryString, uri: savedUri }),
       });
       if (data.status === 200) {
         const parsedData = await data.json();
@@ -82,28 +82,10 @@ const Diagram: FC<{}> = () => {
     [setEdges]
   );
 
-  const onNodeDragStop = (e, node: any) => {
+  const onNodeDragStop = (e: any, node: any) => {
     // console.log(e, node);
     setRenderedDataPositions([...renderedDataPositions, node]);
   };
-
-  const getERDiagram = async () => {
-    try {
-      const data = await fetch('/api/getSchema', {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-      const parsedData = await data.json();
-      setMasterData(parsedData);
-      return;
-    } catch (error) {
-      console.log(`Error in getERDiagram: ${error}`);
-    }
-  };
-
-  useEffect(() => {
-    getERDiagram();
-  }, []);
 
   useEffect(() => {
     setNodes([]);
@@ -114,35 +96,47 @@ const Diagram: FC<{}> = () => {
   // invoke getQueryResults function to render query results
   useEffect(() => {
     if (queryString) {
-      async function updateNodes() {
+      (async () => {
+        let errorArr: any[] = [];
         setErrorMessages(['']);
         const queryParse = conditionalSchemaParser(queryString, masterData);
-        const errorArr = queryParse.errorArr;
-        setErrorMessages(errorArr);
-        if (!errorArr[0]) getQueryResults();
-
-        const defaultNodes = parseNodes(queryParse.mainObj);
-        const defaultEdges = parseEdges(queryParse.mainObj);
-
-        // if no new tables are being added, retain positions; else recalculate
-        let positions = [];
-        const currentTables = Object.keys(renderedData);
-        const newTables = Object.keys(queryParse.mainObj);
-        const combinedLength = new Set(currentTables.concat(newTables)).size;
-        if (
-          currentTables.length === newTables.length &&
-          currentTables.length === combinedLength
-        ) {
-          positions = renderedDataPositions;
+        if (queryParse) {
+          errorArr = queryParse.errorArr;
+          setErrorMessages(errorArr);
         }
-        const testElk = await getElkData(defaultNodes, defaultEdges, positions);
 
-        setNodes(testElk);
-        setRenderedDataPositions(testElk);
-        setEdges(defaultEdges);
-        setRenderedData(queryParse.mainObj);
-      }
-      updateNodes();
+        if (queryParse && !errorArr[0]) {
+          getQueryResults();
+
+          const defaultNodes = parseNodes(queryParse.mainObj);
+          const defaultEdges = parseEdges(queryParse.mainObj);
+
+          // if no new tables are being added, retain positions; else recalculate
+          let positions = [];
+          const currentTables = Object.keys(renderedData);
+          const newTables = Object.keys(queryParse.mainObj);
+          const combinedLength = new Set(currentTables.concat(newTables)).size;
+          if (
+            currentTables.length === newTables.length &&
+            currentTables.length === combinedLength &&
+            JSON.stringify(currentTables.sort()) ===
+              JSON.stringify(newTables.sort())
+          ) {
+            positions = renderedDataPositions;
+          }
+
+          const testElk = await getElkData(
+            defaultNodes,
+            defaultEdges,
+            positions
+          );
+
+          setNodes(testElk);
+          setRenderedDataPositions(testElk);
+          setEdges(defaultEdges);
+          setRenderedData(queryParse.mainObj);
+        }
+      })();
     }
   }, [submit]);
 
